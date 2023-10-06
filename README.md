@@ -1,7 +1,7 @@
 # markdown_editor
 A simple Markdown editor with Flutter
 
-### Packages utilisés
+### Packages used
 
 | Packages | Description |
 | -------- | ----------- |
@@ -13,3 +13,8 @@ A simple Markdown editor with Flutter
 ### Installation
 
 *Coming soon*
+
+### Start project
+````
+flutter run
+````
