@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:markdown_editor/blocs/file_cubit.dart';
 import 'package:markdown_editor/blocs/file_state.dart';
+import 'package:markdown_editor/presentation/widget/editor.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -31,9 +32,7 @@ class HomePage extends StatelessWidget {
             body: BlocBuilder<FileCubit, FileState>(
               builder: (context, state) {
                 if (state is FileStateLoaded) {
-                  return SingleChildScrollView(
-                    child: Text(state.file.content),
-                  );
+                  return Editor(initialContent: state.file.content);
                 } else if (state is FileStateError) {
                   return Center(
                     child: Text(state.message),
