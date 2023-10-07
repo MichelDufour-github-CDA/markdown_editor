@@ -20,24 +20,30 @@ class HomePage extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: const Text('Markdown Editor'),
           actions: [
-            IconButton(
-              onPressed: () {
-                context.read<FileCubit>().pickFile();
-              },
-              icon: const Icon(
-                Icons.file_copy_outlined,
-                color: Colors.black,
+            Tooltip(
+              message: 'Choisir un fichier',
+              child: IconButton(
+                onPressed: () {
+                  context.read<FileCubit>().pickFile();
+                },
+                icon: const Icon(
+                  Icons.file_copy_outlined,
+                  color: Colors.black,
+                ),
               ),
             ),
             BlocBuilder<FileCubit, FileState>(builder: (context, state) {
               if (state is FileStateLoaded) {
-                return IconButton(
-                  onPressed: () {
-                    context.pushNamed(PreviewPage.name);
-                  },
-                  icon: const Icon(
-                    Icons.preview_outlined,
-                    color: Colors.black,
+                return Tooltip(
+                  message: 'Aperçu',
+                  child: IconButton(
+                    onPressed: () {
+                      context.pushNamed(PreviewPage.name);
+                    },
+                    icon: const Icon(
+                      Icons.preview_outlined,
+                      color: Colors.black,
+                    ),
                   ),
                 );
               }
@@ -45,57 +51,60 @@ class HomePage extends StatelessWidget {
             }),
             BlocBuilder<FileCubit, FileState>(builder: (context, state) {
               if (state is FileStateLoaded) {
-                return IconButton(
-                  onPressed: () async {
-                    final result = await showDialog<bool>(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const Text('Are you sure ?'),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      context.pop(true);
-                                    },
-                                    child: const Text('Yes'),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      context.pop(false);
-                                    },
-                                    child: const Text('No'),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                    if (result == true) {
-                      context.read<FileCubit>().saveFile();
-                    }
-                  },
-                  icon: const Icon(
-                    Icons.save_outlined,
-                    color: Colors.black,
+                return Tooltip(
+                  message: 'Save',
+                  child: IconButton(
+                    onPressed: () async {
+                      final result = await showDialog<bool>(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                const Text('Are you sure ?'),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context.pop(true);
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context.pop(false);
+                                      },
+                                      child: const Text('No'),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                      if (result == true) {
+                        context.read<FileCubit>().saveFile();
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.save_outlined,
+                      color: Colors.black,
+                    ),
                   ),
                 );
               }
