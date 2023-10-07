@@ -27,15 +27,20 @@ class HomePage extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    context.read<FileCubit>().saveFile();
-                  },
-                  icon: const Icon(
-                    Icons.save_outlined,
-                    color: Colors.black,
-                  ),
-                ),
+                BlocBuilder<FileCubit, FileState>(builder: (context, state) {
+                  if (state is FileStateLoaded) {
+                    return IconButton(
+                      onPressed: () {
+                        context.read<FileCubit>().saveFile();
+                      },
+                      icon: const Icon(
+                        Icons.save_outlined,
+                        color: Colors.black,
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                }),
               ],
             ),
             body: BlocBuilder<FileCubit, FileState>(
