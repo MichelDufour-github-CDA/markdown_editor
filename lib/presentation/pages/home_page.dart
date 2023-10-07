@@ -5,6 +5,7 @@ import 'package:markdown_editor/blocs/file_cubit.dart';
 import 'package:markdown_editor/blocs/file_state.dart';
 import 'package:markdown_editor/presentation/pages/preview_page.dart';
 import 'package:markdown_editor/presentation/widget/editor.dart';
+import 'package:markdown_editor/presentation/widget/preview.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -59,7 +60,21 @@ class HomePage extends StatelessWidget {
         body: BlocBuilder<FileCubit, FileState>(
           builder: (context, state) {
             if (state is FileStateLoaded) {
-              return Editor(initialContent: state.file.content);
+              return LayoutBuilder(builder: (context, constraints) {
+                if (constraints.maxWidth < 1000) {
+                  return Editor(initialContent: state.file.content);
+                }
+                return Row(
+                  children: [
+                    Expanded(
+                      child: Editor(initialContent: state.file.content),
+                    ),
+                    const Expanded(
+                      child: Preview(),
+                    )
+                  ],
+                );
+              });
             } else if (state is FileStateError) {
               return Center(
                 child: Text(state.message),
