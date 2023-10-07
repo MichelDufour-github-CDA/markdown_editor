@@ -26,7 +26,16 @@ class HomePage extends StatelessWidget {
                     Icons.file_copy_outlined,
                     color: Colors.black,
                   ),
-                )
+                ),
+                IconButton(
+                  onPressed: () {
+                    context.read<FileCubit>().saveFile();
+                  },
+                  icon: const Icon(
+                    Icons.save_outlined,
+                    color: Colors.black,
+                  ),
+                ),
               ],
             ),
             body: BlocBuilder<FileCubit, FileState>(

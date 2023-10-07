@@ -23,4 +23,9 @@ abstract class FileDataSource {
       content: await file.readAsString(),
     );
   }
+
+  static Future<void> saveFile(FileModel file) async {
+    final filePointer = File(file.path);
+    await filePointer.writeAsString(file.content);
+  }
 }
