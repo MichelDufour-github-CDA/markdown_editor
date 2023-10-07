@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -44,8 +46,52 @@ class HomePage extends StatelessWidget {
             BlocBuilder<FileCubit, FileState>(builder: (context, state) {
               if (state is FileStateLoaded) {
                 return IconButton(
-                  onPressed: () {
-                    context.read<FileCubit>().saveFile();
+                  onPressed: () async {
+                    final result = await showDialog<bool>(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const Text('Are you sure ?'),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      context.pop(true);
+                                    },
+                                    child: const Text('Yes'),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      context.pop(false);
+                                    },
+                                    child: const Text('No'),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                    if (result == true) {
+                      context.read<FileCubit>().saveFile();
+                    }
                   },
                   icon: const Icon(
                     Icons.save_outlined,
